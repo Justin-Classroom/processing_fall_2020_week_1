@@ -26,4 +26,4 @@ jobs:
         run: wget https://download.processing.org/processing-3.5.4-linux64.tgz -O - | tar -xz
         
       - name: Build Project
-        run: processing-3.5.4./processing-java --sketch=$GITHUB_WORKSPACE --build
+        run: $GITHUB_WORKSPACE/processing-3.5.4/processing-java --sketch=$GITHUB_WORKSPACE --build
