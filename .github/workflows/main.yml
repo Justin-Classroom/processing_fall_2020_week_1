@@ -1,0 +1,29 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI - Build Processing Code
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        id: cache
+        with:
+          path: processing-3.5.4
+          key: ${{ runner.os }}
+      
+      - name: Install Processing
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: wget https://download.processing.org/processing-3.5.4-linux64.tgz -O - | tar -xz
+        
+      - name: Build Project
+        run: processing-3.5.4./processing-java --sketch=$GITHUB_WORKSPACE --build
