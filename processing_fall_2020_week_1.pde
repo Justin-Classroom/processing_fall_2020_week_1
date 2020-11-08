@@ -46,6 +46,10 @@ void draw() {
   for (int i = 0; i < bricks.length; i = i + 1) {
     Box brick = bricks[i];
     if (brick != null) {
+      if (ball1.collideWithBox(brick)) {
+        // brick disappears
+        // ball bounces off
+      }
       brick.render();
     }
   }
