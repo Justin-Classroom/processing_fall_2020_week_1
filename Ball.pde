@@ -80,19 +80,47 @@ class Ball {
   }
   
   public boolean collideWithBox(Box box) {
-    boolean hit = false;
-    if (abs(this.x - box.getX()) < (this.bWidth / 2) + (box.getWidth() / 2)) {
-      this.speedX = this.speedX * -1;
-      hit = true;
+    float collideX = this.x;
+    float collideY = this.y;
+    
+    if (this.x < box.getX() - box.getWidth() / 2) {
+      collideX = box.getX() - box.getWidth() / 2;
+    } else if (this.x > box.getX() + box.getWidth() / 2) {
+      collideX = box.getX() + box.getWidth() / 2;
     }
     
-    if (abs(this.y - box.getY()) < (this.bHeight / 2) + (box.getHeight() / 2)) {
-      this.speedY = this.speedY * -1;
-      hit = true;
+    if (this.y < box.getY() - box.getHeight() / 2) {
+      collideY = box.getY() - box.getHeight() / 2;
+    } else if (this.y > box.getY() + box.getHeight() / 2) {
+      collideY = box.getY() + box.getHeight() / 2;
     }
     
-    return hit;
+    float distX = this.x - collideX;
+    float distY = this.y - collideY;
+    
+    float distance = sqrt((distX * distX) + (distY * distY));
+    
+    if (distance <= this.bWidth / 2) {
+      return true;
+    }
+    
+    return false;
   }
+  
+  //public boolean collideWithBox(Box box) {
+  //  boolean hit = false;
+  //  if (abs(this.x - box.getX()) < (this.bWidth / 2) + (box.getWidth() / 2)) {
+  //    this.speedX = this.speedX * -1;
+  //    hit = true;
+  //  }
+    
+  //  if (abs(this.y - box.getY()) < (this.bHeight / 2) + (box.getHeight() / 2)) {
+  //    this.speedY = this.speedY * -1;
+  //    hit = true;
+  //  }
+    
+  //  return hit;
+  //}
   
   //public int[] collideWithBox(Box box) {
   //  int[] hitDirection = new int[2];

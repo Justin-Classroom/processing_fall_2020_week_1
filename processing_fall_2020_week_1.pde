@@ -16,7 +16,7 @@ void setup() {
   ball1.setPosition(150, 150);
   ball1.setWidth(50);
   ball1.setHeight(50);
-  ball1.setSpeed(1, 1);
+  ball1.setSpeed(0, 0);
   
   paddle = new Paddle();
   paddle.setPosition(250, 300);
@@ -46,28 +46,32 @@ void draw() {
   for (int i = 0; i < bricks.length; i = i + 1) {
     Box brick = bricks[i];
     if (brick != null) {
-      if (ball1.collideWithBox(brick)) {
-        // brick disappears
-        // ball bounces off
-      }
-      brick.render();
+      //if (ball1.collideWithBox(brick)) {
+      //  // brick disappears
+      //  // ball bounces off
+      //}
+      //brick.render();
     }
   }
   
-  //int x = constrain(mouseX, 
-  //  paddle.getWidth() / 2, 
-  //  width - paddle.getWidth() / 2
-  //);
+  int x = constrain(mouseX, 
+    paddle.getWidth() / 2, 
+    width - paddle.getWidth() / 2
+  );
   
-  //int y = constrain(mouseY, 
-  //  paddle.getHeight() / 2, 
-  //  height - paddle.getHeight() / 2
-  //);
+  int y = constrain(mouseY, 
+    paddle.getHeight() / 2, 
+    height - paddle.getHeight() / 2
+  );
   
-  //paddle.move(x, y);
-  
+  paddle.move(x, y);
+  paddle.render();
+  if (ball1.collideWithBox(paddle)) {
+    fill(0, 255, 0);
+  } else {
+    fill(255);
+  }
   ball1.render();
   ball1.update();
-  //paddle.render();
   
 }
