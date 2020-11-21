@@ -4,6 +4,9 @@ Box paddle;
 int WIDTH = 500;
 int HEIGHT = 500;
 
+int points;
+int health;
+
 // array of bricks
 Box[] bricks = new Box[16];
 
@@ -13,21 +16,21 @@ void settings() {
 
 void setup() {
   ball1 = new Ball();
-  ball1.setPosition(150, 150);
+  ball1.setPosition(150, 300);
   ball1.setWidth(50);
   ball1.setHeight(50);
-  ball1.setSpeed(0, 0);
+  ball1.setSpeed(1, 1);
   
   paddle = new Paddle();
-  paddle.setPosition(250, 300);
+  paddle.setPosition(250, height - 50);
   paddle.setWidth(100);
-  paddle.setHeight(50);
+  paddle.setHeight(15);
   
   for (int i = 0; i < bricks.length; i = i + 1) {
     int row = 4;
     int col = 4;
     int xPos = 100;
-    int yPos = 100;
+    int yPos = 50;
     int bWidth = 80;
     int bHeight = 40;
     
@@ -38,19 +41,28 @@ void setup() {
     
     bricks[i] = brick;
   }
+  
+  points = 0;
+  health = 3;
 }
 
 void draw() { 
   background(100);
+  text("Score: " + points, width - 100, 30);
+  
+  ball1.collideWithBox(paddle);
   
   for (int i = 0; i < bricks.length; i = i + 1) {
     Box brick = bricks[i];
     if (brick != null) {
-      //if (ball1.collideWithBox(brick)) {
-      //  // brick disappears
-      //  // ball bounces off
-      //}
-      //brick.render();
+      if (brick.isAlive()) {
+        if (ball1.collideWithBox(brick)) {
+          brick.hit(true);
+          points += 10;
+          println(points);
+        }
+        brick.render();
+      }
     }
   }
   
@@ -59,19 +71,27 @@ void draw() {
     width - paddle.getWidth() / 2
   );
   
-  int y = constrain(mouseY, 
-    paddle.getHeight() / 2, 
-    height - paddle.getHeight() / 2
-  );
-  
-  paddle.move(x, y);
+  paddle.move(x, paddle.getY());
   paddle.render();
-  if (ball1.collideWithBox(paddle)) {
-    fill(0, 255, 0);
-  } else {
-    fill(255);
-  }
+  
   ball1.render();
   ball1.update();
   
+}
+
+void reset() {
+  points = 0;
+  ball1.setPosition(150, 300);
+  for (int i = 0; i < bricks.length; i = i + 1) {
+    Box brick = bricks[i];
+    if (brick != null) {
+      brick.hit(false);
+    }
+  }
+}
+
+void keyPressed() {
+  if (key == 'r') {
+    reset();
+  }
 }

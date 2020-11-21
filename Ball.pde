@@ -82,17 +82,23 @@ class Ball {
   public boolean collideWithBox(Box box) {
     float collideX = this.x;
     float collideY = this.y;
+    boolean flipX = false;
+    boolean flipY = false;
     
     if (this.x < box.getX() - box.getWidth() / 2) {
       collideX = box.getX() - box.getWidth() / 2;
+      flipX = true;
     } else if (this.x > box.getX() + box.getWidth() / 2) {
       collideX = box.getX() + box.getWidth() / 2;
+      flipX = true;
     }
     
     if (this.y < box.getY() - box.getHeight() / 2) {
       collideY = box.getY() - box.getHeight() / 2;
+      flipY = true;
     } else if (this.y > box.getY() + box.getHeight() / 2) {
       collideY = box.getY() + box.getHeight() / 2;
+      flipY = true;
     }
     
     float distX = this.x - collideX;
@@ -101,6 +107,8 @@ class Ball {
     float distance = sqrt((distX * distX) + (distY * distY));
     
     if (distance <= this.bWidth / 2) {
+      if (flipX) this.speedX = this.speedX * -1;
+      if (flipY) this.speedY = this.speedY * -1;
       return true;
     }
     

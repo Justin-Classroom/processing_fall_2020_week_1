@@ -38,5 +38,9 @@ abstract class Box {
     rect(this.x, this.y, this.pWidth, this.pHeight);
   }
   
+  abstract public boolean isAlive();
+  
+  abstract public void hit(boolean hit);
+  
   abstract public void move(int x, int y);
 }
